@@ -1,0 +1,11 @@
+<button class="scroller-hz__btn" [class.disabled]="!isLeftEnabled" (mousedown)="onScrollLeftMouseDown()" (mouseup)="onMouseUp()">
+  <i class="fa fa-caret-left"></i>
+</button>
+<div class="scroller-hz__container">
+  <div #content class="scroller-hz__content" [style.transform]="'translateX(' + -contentLeftOffset + 'px)'">
+    <ng-content></ng-content>
+  </div>
+</div>
+<button class="scroller-hz__btn" [class.disabled]="!isRightEnabled" (mousedown)="onScrollRightMouseDown()" (mouseup)="onMouseUp()">
+  <i class="fa fa-caret-right"></i>
+</button>

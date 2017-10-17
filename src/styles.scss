@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+$btn-size: 60px;
+$half-btn-radius: 28px;
+$sm-btn-size: $btn-size * 0.75;
+$sm-half-btn-radius: $half-btn-radius * 0.75;
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.calculator {
+  &__displays {
+    display: block;
+    background-color: #FFF;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #000;
+    border-style: solid;
+    padding: 5px;
+  }
+
+  &__btn {
+    width: $btn-size;
+    height: $btn-size;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    box-sizing: content-box;
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: transparent;
+    border-style: solid;
+    outline: none;
+    background: lightgray;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    padding: 0;
+
+    @media screen and (max-width: 375px) {
+      width: $sm-btn-size;
+      height: $sm-btn-size;
+      font-size: 14px;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: black;
+    }
+
+    &-half {
+      display: block;
+      height: $half-btn-radius;
+      border-radius: 0;
+      margin: 0;
+
+      @media screen and (max-width: 375px) {
+        height: $sm-half-btn-radius;
+      }
+
+      &-top {
+        border-top-left-radius: $half-btn-radius * 2;
+        border-top-right-radius: $half-btn-radius * 2;
+        border-bottom-color: lightgray;
+        @media screen and (max-width: 375px) {
+          border-top-left-radius: $sm-half-btn-radius * 2;
+          border-top-right-radius: $sm-half-btn-radius * 2;
+        }
+      }
+
+      &-btm {
+        border-bottom-left-radius: $half-btn-radius * 2;
+        border-bottom-right-radius: $half-btn-radius * 2;
+        @media screen and (max-width: 375px) {
+          border-bottom-left-radius: $sm-half-btn-radius * 2;
+          border-bottom-right-radius: $sm-half-btn-radius * 2;
+        }
+      }
+    }
+
+    &-func {
+      background-color: #AAAAAA;
+
+      &-impt {
+        background-color: #E60000;
+      }
+    }
+
+    &__container {
+      display: inline-block;
+      border: none;
+      outline: none;
+    }
+
+    &__row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__number {
+    margin: 10px;
+    padding: 0;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+    font-size: 32px;
+    line-height: 32px;
+    min-height: 32px;
+    white-space: nowrap;
+    &:empty::after {
+      content: ".";
+      visibility: hidden;
+    }
+  }
+
+  &__equation {
+    margin: 5px;
+    padding: 0;
+    white-space: nowrap;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+
+    &:empty::after {
+      content: ".";
+      visibility: hidden;
+    }
+  }
+}
+
+.scroller {
+  &-hz {
+    &__btn {
+      background: transparent;
+      border: none;
+      margin: 0;
+      padding: 2px;
+      flex-grow: 0;
+
+      &.disabled {
+        opacity: 0.5;
+      }
+    }
+
+    &__container {
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: 5px;
+      flex-grow: 1;
+      overflow-x: hidden;
+    }
+
+    &__content {
+      display: block;
+      max-width: 100%;
+      transition: transform 0.2s;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<div class="calculator__displays">
+  <h1 #numberElement class="calculator__number">{{number}}</h1>
+  <cho-horizontal-scroller [reset]="resetEmitter" [scroll-to-right-end]="equationUpdated">
+    <h2 class="calculator__equation">{{equation}}</h2>
+  </cho-horizontal-scroller>
+</div>
+<div class="calculator__btn__row">
+  <button #button hotkey="(" class="calculator__btn calculator__btn-func" (click)="startGroup()" (submit)="startGroup()">(</button>
+  <button #button hotkey=")" class="calculator__btn calculator__btn-func" (click)="closeGroup()">)</button>
+  <button #button hotkey="backspace" class="calculator__btn calculator__btn-func" (click)="backspace()">
+    <i class="fa fa-arrow-left">
+    </i>
+  </button>
+  <button #button hotkey="escape" class="calculator__btn calculator__btn-func" (click)="clear()">AC</button>
+</div>
+<div class="calculator__btn__row">
+  <button #button hotkey="7" class="calculator__btn" (click)="addDigit(7)">7</button>
+  <button #button hotkey="8" class="calculator__btn" (click)="addDigit(8)">8</button>
+  <button #button hotkey="9" class="calculator__btn" (click)="addDigit(9)">9</button>
+  <button #button hotkey="/" class="calculator__btn calculator__btn-func" (click)="addOperator(ArithmeticOperator.Division)">&divide;</button>
+</div>
+<div class="calculator__btn__row">
+  <button #button hotkey="4" class="calculator__btn" (click)="addDigit(4)">4</button>
+  <button #button hotkey="5" class="calculator__btn" (click)="addDigit(5)">5</button>
+  <button #button hotkey="6" class="calculator__btn" (click)="addDigit(6)">6</button>
+  <button #button hotkey="*" class="calculator__btn calculator__btn-func" (click)="addOperator(ArithmeticOperator.Multiplication)">&times;</button>
+</div>
+<div class="calculator__btn__row">
+  <button #button hotkey="1" class="calculator__btn" (click)="addDigit(1)">1</button>
+  <button #button hotkey="2" class="calculator__btn" (click)="addDigit(2)">2</button>
+  <button #button hotkey="3" class="calculator__btn" (click)="addDigit(3)">3</button>
+  <button #button hotkey="-" class="calculator__btn calculator__btn-func" (click)="addOperator(ArithmeticOperator.Subtraction)">-</button>
+</div>
+<div class="calculator__btn__row">
+  <button #button hotkey="0" class="calculator__btn" (click)="addDigit(0)">0</button>
+  <div class="calculator__btn__container">
+    <button #button hotkey="_" class="calculator__btn calculator__btn-half calculator__btn-half-top" (click)="negate()">&#x207a;&#x2044;&#x208b;</button>
+    <button #button hotkey="." class="calculator__btn calculator__btn-half calculator__btn-half-btm" (click)="addDecimal()">.</button>
+  </div>
+  <button #button hotkey="enter" class="calculator__btn calculator__btn-func-impt" (click)="evaluate()">=</button>
+  <button #button hotkey="+" class="calculator__btn calculator__btn-func" (click)="addOperator(ArithmeticOperator.Addition)">+</button>
+</div>

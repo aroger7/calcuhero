@@ -1,0 +1,16 @@
+:host {
+  display: inline-block;
+  padding: 20px;
+  background-color: #DFDCE3;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5), inset -1px -6px 12px 0.1px #89847e;
+  border-radius: 10px;
+  width: 295px;
+  max-width: 295px;
+
+  @media screen and (max-width: 375px) {
+    width: 220px;
+    max-width: 220px;
+  }
+}
