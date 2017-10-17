@@ -9,7 +9,7 @@ A simple calculator created in Angular2 and inspired by FreeCodeCamp. Equations 
 
 ## Authors
 
-* **Adam Rogers - Initial work - (https://github.com/aroger7)
+* **Adam Rogers** - Initial work - (https://github.com/aroger7)
 
 ## Acknowledgments
 
