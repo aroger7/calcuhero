@@ -6,6 +6,7 @@ A simple calculator created in Angular2 and inspired by FreeCodeCamp. Equations 
 
 * [Angular2](https://angular.io/) - Web framework used
 * [angular2-hotkeys](https://github.com/brtnshrdr/angular2-hotkeys) - Used to manage hotkey events
+* [bignumber.js](https://github.com/MikeMcl/bignumber.js/) - Used to ensure floating number precision
 
 ## Authors
 

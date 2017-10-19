@@ -3,6 +3,7 @@ import { ArithmeticOperator } from '../arithmetic-operator.enum';
 import { CalculatorService } from '../calculator.service';
 import { NumberService } from '../number.service';
 import { HotkeysService, Hotkey, ExtendedKeyboardEvent } from 'angular2-hotkeys';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
 	selector: 'cho-calculator',
@@ -26,6 +27,8 @@ export class CalculatorComponent implements OnInit {
 	@ViewChild('numberElement')
 	private _numberElement: ElementRef;
 	private _resetEmitter: EventEmitter<any> = new EventEmitter<any>();
+
+	private readonly MIN_NUMBER_FONT_SIZE = 8;
 
 	public get currentNumberFontSize(): number {
 		return Number.parseFloat(window.getComputedStyle(this._numberElement.nativeElement).fontSize);
@@ -81,13 +84,13 @@ export class CalculatorComponent implements OnInit {
 	}
 
 	public addDigit(digit: number): void {
-		if (this.isNumberFontSizeMin) {
+		if (this.currentNumberFontSize > this.MIN_NUMBER_FONT_SIZE) {
 			this._calculatorService.addDigit(digit);
 		}
 	}
 
 	public addDecimal(): void {
-		if (this.isNumberFontSizeMin) {
+		if (this.currentNumberFontSize > this.MIN_NUMBER_FONT_SIZE) {
 			this._calculatorService.addDecimal();
 		}
 	}
@@ -102,7 +105,14 @@ export class CalculatorComponent implements OnInit {
 	}
 
 	public clear(): void {
+		// let number: BigNumber = new BigNumber('1234567890.012345');
+		let number: BigNumber = new BigNumber('0.1234567890');
+		console.log('total number of digits in ' + number.toString() + ' is ' + (number.e + 1 + number.decimalPlaces()));
+		console.log('number of decimal places is ' + number.decimalPlaces());
+		console.log('precision says it is ' + number.precision(true));
+		//debugger;
 		this._calculatorService.clear();
+		this.resetEmitter.emit();
 	}
 
 	public closeGroup(): void {
@@ -126,7 +136,7 @@ export class CalculatorComponent implements OnInit {
 
 	private tryShrinkNumberTextToFit(): void {
 		let numberStyle = window.getComputedStyle(this._numberElement.nativeElement);
-		while (this.isNumberOverflowing) {
+		while (this.isNumberOverflowing && this.currentNumberFontSize > this.MIN_NUMBER_FONT_SIZE) {
 			this._renderer.setElementStyle(this._numberElement.nativeElement, 'font-size', (this.currentNumberFontSize - 1).toString() + 'px');
 		}
 	}

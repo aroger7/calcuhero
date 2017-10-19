@@ -1,4 +1,5 @@
 import { EquationNode } from './equation-node';
+import { BigNumber } from 'bignumber.js';
 
 export class GroupNode implements EquationNode {
 	constructor(parent?: EquationNode, left?: EquationNode) {
@@ -35,7 +36,7 @@ export class GroupNode implements EquationNode {
 				: '');
 	}
 
-	public evaluate(): number {
+	public evaluate(): BigNumber {
 		return this.children[0].evaluate();
 	}
 }

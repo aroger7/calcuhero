@@ -1,3 +1,5 @@
+import { BigNumber } from 'bignumber.js';
+
 export interface EquationNode {
 	canEvaluate: boolean;
 	children: EquationNode[];
@@ -7,5 +9,5 @@ export interface EquationNode {
 	precedence: number;
 
 	getInfixString(): string;
-	evaluate(): number;
+	evaluate(): BigNumber;
 }

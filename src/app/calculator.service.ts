@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { ArithmeticOperator } from './arithmetic-operator.enum';
 import { EquationBuilderService } from './equation-builder.service';
 import { NumberService } from './number.service';
+import { BigNumber } from 'bignumber.js';
 
 @Injectable()
 export class CalculatorService {
 	constructor(private _equationBuilderService: EquationBuilderService,
 		private _numberService: NumberService) { }
+
+	private readonly MAX_RESULT_DIGITS = 30;
+	private readonly MIN_DP_ON_ROUNDING = 10;
 
 	private _isNumberNegative: boolean = false;
 	private _isNumberResult: boolean = false;
@@ -78,8 +82,8 @@ export class CalculatorService {
 	}
 
 	public addOperator(operator: ArithmeticOperator) {
-		let number: number = Number.parseFloat(this.number);
-		if (!isNaN(number)) {
+		let number: BigNumber = new BigNumber(this.number);
+		if (!number.isNaN()) {
 			this._equationBuilderService.tryAddNumber(number);
 			this._equationBuilderService.addOperator(operator);
 			this.clearNumber();
@@ -113,25 +117,36 @@ export class CalculatorService {
 	}
 
 	public closeGroup(): void {
-		if (this._equationBuilderService.canAddNumber) {
-			this._equationBuilderService.tryAddNumber(Number.parseFloat(this.number));
-		}
-		
-		if (this._equationBuilderService.canCloseGroup) {
-			this._equationBuilderService.closeGroup();
-			this.clearNumber();
+		if (this._equationBuilderService.hasOpenGroup) {
+			if (this._equationBuilderService.canAddNumber) {
+				this._equationBuilderService.tryAddNumber(new BigNumber(this.number));
+			}
+
+			if (this._equationBuilderService.canCloseGroup) {
+				this._equationBuilderService.closeGroup();
+				this.clearNumber();
+			}
 		}
 	}
 
 	public evaluate(): void {
 		if (!this._equationBuilderService.canEvaluate) {
-			this._equationBuilderService.tryAddNumber(Number.parseFloat(this.number));
+			this._equationBuilderService.tryAddNumber(new BigNumber(this.number));
 		}
 
 		try {
-			let result = this._equationBuilderService.evaluate();
-			this.numberAbsoluteValue = Math.abs(result).toString();
-			this.isNumberNegative = result < 0;
+			let result: BigNumber = this._equationBuilderService.evaluate();
+
+			result = this.tryTrimResultDecimals(result);
+			let digits = this.countBigNumberDigits(result);
+
+			if(digits > this.MAX_RESULT_DIGITS) {
+				this.numberAbsoluteValue = result.abs().toExponential();
+			} else {
+				this.numberAbsoluteValue = result.abs().toString();
+			}
+
+			this.isNumberNegative = result.lessThan(0);
 		} catch (e) {
 			this.numberAbsoluteValue = "ERROR";
 		} finally {
@@ -144,9 +159,30 @@ export class CalculatorService {
 		this._equationBuilderService.startGroup();
 	}
 
+	private countBigNumberDigits(result: BigNumber): number {
+		let digits: number = result.decimalPlaces();
+		if (result.e >= 0) {
+			digits += result.e + 1;
+		} else {
+			digits += 1;
+		}
+
+		return digits;
+	}
+
 	private isDigit(number: number) {
 		return Number.isInteger(number) && number >= 0 && number <= 9;
 	}
 
+	private tryTrimResultDecimals(result: BigNumber): BigNumber {
+		let digits = this.countBigNumberDigits(result);
+		let overflow: number = digits - this.MAX_RESULT_DIGITS;
+		let maxRemovableDps: number = result.decimalPlaces() - this.MIN_DP_ON_ROUNDING;
+		if (maxRemovableDps > 0) {
+			let removableDps = Math.min(maxRemovableDps, overflow);
+			return result.round(result.decimalPlaces() - removableDps);
+		}
 
+		return result;
+	}
 }

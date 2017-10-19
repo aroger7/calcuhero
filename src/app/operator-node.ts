@@ -1,4 +1,5 @@
 import { EquationNode } from './equation-node';
+import { BigNumber } from 'bignumber.js';
 
 export abstract class OperatorNode implements EquationNode {
 
@@ -20,7 +21,7 @@ export abstract class OperatorNode implements EquationNode {
 		return this.children.length;
 	}
 
-	public abstract evaluate(): number;
+	public abstract evaluate(): BigNumber;
 
 	public getInfixString(): string {
 		let leftInfix = this.children[0]

@@ -1,7 +1,9 @@
 import { EquationNode } from './equation-node';
+import { BigNumber } from 'bignumber.js';
 
 export class NumberNode implements EquationNode {
-	constructor(public number: number, parent?: EquationNode) {
+
+	constructor(public number: BigNumber, parent?: EquationNode) {
 	}
 
 	public parent: EquationNode;
@@ -17,7 +19,7 @@ export class NumberNode implements EquationNode {
 		return [];
 	}
 
-	public evaluate(): number {
+	public evaluate(): BigNumber {
 		return this.number;
 	}
 

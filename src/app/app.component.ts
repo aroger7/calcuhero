@@ -1,4 +1,5 @@
 import { Component, OnInit, Host } from '@angular/core';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
 	selector: 'cho-root',
@@ -12,5 +13,9 @@ export class AppComponent {
 	}
 
 	ngOnInit() {
+		BigNumber.config({
+			ERRORS: false,
+		});
+		console.log(BigNumber.config());
 	}
 }

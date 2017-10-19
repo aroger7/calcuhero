@@ -8,6 +8,7 @@ import { MultiplicationNode } from './multiplication-node';
 import { DivisionNode } from './division-node';
 import { GroupNode } from './group-node';
 import { ArithmeticOperator } from './arithmetic-operator.enum';
+import { BigNumber } from 'bignumber.js';
 
 @Injectable()
 export class EquationBuilderService {
@@ -27,7 +28,11 @@ export class EquationBuilderService {
 	}
 
 	public get canEvaluate(): boolean {
-		return this._root.canEvaluate;
+		return this._root && this._root.canEvaluate;
+	}
+
+	public get hasOpenGroup(): boolean {
+		return this._groups.length > 0;
 	}
 
 	private get hasEmptyChildren(): boolean {
@@ -51,7 +56,7 @@ export class EquationBuilderService {
 		}
 	}
 
-	public evaluate(): number {
+	public evaluate(): BigNumber {
 		return this._root.evaluate();
 	}
 
@@ -69,7 +74,7 @@ export class EquationBuilderService {
 		}
 	}
 
-	public tryAddNumber(number: number): boolean {
+	public tryAddNumber(number: BigNumber): boolean {
 		if (this.canAddNumber) {
 			let node = new NumberNode(number);
 			this.insertNode(node);
